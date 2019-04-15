@@ -1,0 +1,36 @@
+.module{
+    width:1200px;
+    margin: 0 auto;
+}
+.module-header h3{
+    line-height: 35px;
+    margin-top:70px;
+    text-align: center;
+    font-size: 32px;
+    color:#000;
+}
+.module-explain{
+    text-align: center;
+    font-size: 16px;
+    color:#666;
+    line-height: 40px;
+}
+.module-more{
+    text-align: center;
+    line-height: 20px;
+    margin:15px 0 60px;
+}
+.module-more a{
+    display: inline-block;
+    height: 45px;
+    line-height: 45px;
+    width:150px;
+    color:#f37016;
+    border:2px solid #f37016;
+}
+.module .module-title h4{
+    font-size: 14px;
+     color:#000;
+     line-height: 20px;
+     margin:17px 0;
+}
