@@ -1,5 +1,5 @@
 <template>
-    <div class="banner">
+    <div class="banner m-t-90">
         <el-carousel :interval="5000" arrow="always">
             <el-carousel-item v-for="(item,index) in bgList" :key="index">
                 <img :src="item.name" alt="">

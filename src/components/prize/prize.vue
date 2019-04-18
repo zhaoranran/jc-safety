@@ -5,13 +5,13 @@
                 <h3>精美奖品</h3>
                 <p class="module-explain">丰富的礼品，丰厚的奖励，任您选~</p>
                 <div class="module-more">
-                    <a href="#">更多奖品</a>
+                    <a href="#/points">更多奖品</a>
                 </div>
             </div>
             <div class="prize-content">
                 <ul>
                     <li v-for="(item,index) in prizeList" :key="index">
-                        <a href="javascript:void(0)">
+                        <a href="javascript:void(0)"  @click="getDescribe(item.id)">
                             <img :src="item.pic" alt="">
                             <div class="module-title prize-title">
                                 <h4>{{item.title}}</h4>
@@ -41,49 +41,56 @@ export default {
                     total:'1000',
                     num1:'20',
                     num2:'20',
-                    pic:require('../../assets/images/prize.png')
+                    pic:require('../../assets/images/prize.png'),
+                    id:1
                },
                {
                    title:'黑客攻防工具实战',
                     total:'1000',
                     num1:'20',
                     num2:'20',
-                    pic:require('../../assets/images/prize.png')
+                    pic:require('../../assets/images/prize.png'),
+                    id:2
                },
                {
                    title:'黑客攻防工具实战',
                     total:'1000',
                     num1:'20',
                     num2:'20',
-                    pic:require('../../assets/images/prize.png')
+                    pic:require('../../assets/images/prize.png'),
+                    id:3
                },
                {
                    title:'黑客攻防工具实战',
                     total:'1000',
                     num1:'20',
                     num2:'20',
-                    pic:require('../../assets/images/prize.png')
+                    pic:require('../../assets/images/prize.png'),
+                    id:4
                },
                {
                    title:'黑客攻防工具实战',
                     total:'1000',
                     num1:'20',
                     num2:'20',
-                    pic:require('../../assets/images/prize.png')
+                    pic:require('../../assets/images/prize.png'),
+                    id:5
                },
                {
                    title:'黑客攻防工具实战',
                     total:'1000',
                     num1:'20',
                     num2:'20',
-                    pic:require('../../assets/images/prize.png')
+                    pic:require('../../assets/images/prize.png'),
+                    id:6
                },
                {
                    title:'黑客攻防工具实战',
                     total:'1000',
                     num1:'20',
                     num2:'20',
-                    pic:require('../../assets/images/prize.png')
+                    pic:require('../../assets/images/prize.png'),
+                    id:7
                },
                
            ] 
@@ -92,7 +99,12 @@ export default {
     methods: {
         collect(){
             console.log(this);
-        }
+        },
+        getDescribe(id) {
+        this.$router.push({
+          path: `/points-details/${id}`,
+        })
+      },
     },
 }
 </script>

@@ -29,8 +29,99 @@
     border:2px solid #f37016;
 }
 .module .module-title h4{
+    max-width:215px;
     font-size: 14px;
      color:#000;
      line-height: 20px;
      margin:17px 0;
+}
+.m-t-90{
+    margin-top:90px;
+}
+
+.commont-title{
+    font-size: 22px;
+    border-bottom:1px solid #ededed;
+    
+}
+.commont-title span{
+    color:#4464c3;
+    border-bottom:4px solid #4464c3;
+    display: inline-block;
+    height: 55px;
+    line-height: 55px;
+    font-weight: bold;
+}
+
+.common-header{
+    height: 60px;
+    line-height: 60px;
+    background: #fff;
+}
+.common-header i{
+    margin-right: 8px;
+    font-size: 20px;
+    background: linear-gradient(to top, #fc9a47, #ffeb36, #ffec38);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+.common-header img{
+    vertical-align: middle;
+    margin-top: -3px;
+    margin-left: 25px;
+}
+
+/* 文字超出部分省略显示 */
+/* 单行 */
+.over-hide{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap
+}
+/* 多行 */
+.over-hides{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+.module-rank{
+    padding:15px 20px;
+    background:#fff;
+    margin:15px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.module-rank ul{
+    display: flex;
+    justify-content: flex-start;
+    
+}
+.module-rank a{
+    display: block;
+    width:120px;
+    height: 40px;
+    line-height: 40px;
+    background:#fafafa;
+    text-align: center;
+    color:#666;
+}
+.module-rank a.active,.herose-rank a:hover{
+    color:#4464c3;
+    background: #fff;
+    font-weight: 700;
+}
+.module-rank li:first-child{
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+.module-rank li{
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+}
+.module-rank li + li{
+    border-right: 1px solid #ddd;
 }

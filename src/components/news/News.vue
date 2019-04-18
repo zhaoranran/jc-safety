@@ -1,20 +1,20 @@
 <template>
     <div class="news module">
         <div class="module-header">
-            <h3>新闻动态</h3>
+            <h3>公告动态</h3>
             <p class="module-explain">多年的安全研究经验，最新的技术前沿报告，尽在TSRC博客频道</p>
             <div class="module-more">
-                <a href="#">更多新闻</a>
+                <a href="#/notice">更多公告</a>
             </div>
         </div>
         <div class="new-content">
             <ul>
-                <li v-for="(item,index) in newsList">
-                    <a href="#">
+                <li v-for="(item,index) in newsList" @click="getDescribe(item.id)">
+                    <a href="javascript:void(0)">
                         <img :src="item.pic" alt="">
                         <div class="module-title new-title">
-                            <h4>{{item.title}}</h4>
-                            <p>{{item.content}}</p>
+                            <h4 class="over-hide" :title="item.title">{{item.title}}</h4>
+                            <p class="over-hides">{{item.content}}</p>
                         </div>
                         
                     </a>
@@ -32,20 +32,30 @@ export default {
                 {
                     title:'以攻促防————企业蓝军建设思考',
                     content:'相信未来会用更好的企业建设网络啥撒旦法师打发阿斯顿发送到发的阿斯顿发达',
-                    pic:require('../../assets/images/news.png')
+                    pic:require('../../assets/images/news.png'),
+                    id:1
                 },
                 {
                     title:'以攻促防————企业蓝军建设思考',
                     content:'相信未来会用更好的企业建设网络啥撒旦法师打发阿斯顿发送到发的阿斯顿发达',
-                    pic:require('../../assets/images/news.png')
+                    pic:require('../../assets/images/news.png'),
+                    id:2
                 },
                 {
                     title:'以攻促防————企业蓝军建设思考',
                     content:'相信未来会用更好的企业建设网络啥撒旦法师打发阿斯顿发送到发的阿斯顿发达',
-                    pic:require('../../assets/images/news.png')
+                    pic:require('../../assets/images/news.png'),
+                    id:3
                 }
             ]
         }
+    },
+    methods:{
+        getDescribe(id) {
+        this.$router.push({
+          path: `/notice-details/${id}`,
+        })
+      },
     }
 }
 </script>
@@ -73,6 +83,9 @@ export default {
      border:1px solid #ddd;
     padding-bottom:35px;
  }
+ .new-content li a:hover{
+     box-shadow:1px 1px 3px 2px #ccc ;
+ }
  .new-content li img{
      display:block;
      width:387px;
@@ -82,6 +95,7 @@ export default {
     padding:0 25px 0 20px;
 }
 .new-content .new-title p{
+    max-width:335px;
     font-size: 12px;
     line-height: 20px;
     color:#999;
