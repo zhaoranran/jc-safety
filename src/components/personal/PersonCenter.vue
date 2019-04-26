@@ -72,7 +72,6 @@ export default {
             })
             .then(res => {
                 if(res.data){
-                   console.log(res);
                    this.userInfo = res.data;
                 }
             })

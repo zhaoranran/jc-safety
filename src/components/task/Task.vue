@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="task-list module">
-            <ul>
+            <ul v-if="taskList.length>0">
                 <li v-for="(item,index) in taskList" :key="index">
                     <a href="javascript:void(0);" class="task-list-content" @click="getDescribe(item.id)">
                         <div class="task-img">
@@ -26,7 +26,9 @@
                     </a>
                 </li>
             </ul>
-            
+            <div v-else class="no-data">
+                暂无数据
+            </div>
         </div>
        <v-pager v-show="totalPages>1" @currentPager="currentPager" :totalPages="totalPages" :pageRows="pageRows" ></v-pager>
     </div>
@@ -96,6 +98,9 @@ export default {
 </script>
 <style lang="scss" >
 @import '../../assets/sass/common.scss';
+.task-list{
+    min-height: 642px;
+}
 .task-list ul{
     display: flex;
     justify-content: flex-start;
@@ -171,6 +176,12 @@ export default {
 }
 .task .my-page{
     margin-bottom:90px;
+}
+.task .no-data{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 642px;
 }
 </style>
 

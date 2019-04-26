@@ -48,8 +48,27 @@ export default {
     },
     methods:{
         personTabs(index,item,$event){
-            this.personActive = index;
+            let token = window.sessionStorage.getItem("token");
+            if(token != null){
+                this.personActive = index;
+            }else{
+                this.$confirm('当前用户处于未登录状态', '去登录', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                        this.$router.push({
+                            path: `login`,
+                        }) 
+                    }).catch(() => {   
+                        return false;     
+                });
+            }   
+            
         },
+    },
+    watch:{
+
     }
 }
 </script>
@@ -120,12 +139,17 @@ export default {
 }
 
 .person-right .el-table td, .person-right .el-table th.is-leaf{
+    border-left: none;
+    border-bottom: none;
+    border-top: none;
     border-bottom: 1px solid #e7eaec;
     color:#676a6c;
+    
 }
 .person-right .el-table th.is-leaf{
     color: #0C9CEE;
     font-weight: 700;
+    border-bottom: none;
 }
 .person-right .el-table td, .el-table th{
     text-align: center;
@@ -135,6 +159,8 @@ export default {
     margin-bottom:20px;
     border: 1px solid #e7eaec;
 }
-
+.el-table__body, .el-table__footer, .el-table__header{
+    border-left:none;
+}
 </style>
 

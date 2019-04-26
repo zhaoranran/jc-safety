@@ -83,7 +83,7 @@
                     <div>附件：</div>
                     <ul>
                         <li v-for="(item,index) in attachList" :key="index">
-                            <a :href="item.fileNameUrl">{{item.fileName}}<i class="icon iconfont iconruku"></i></a>
+                            <a @click="download(item)" href="javascript:void(0);">{{item.fileName}}<i class="icon iconfont iconruku"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -124,6 +124,7 @@ export default {
             totalPages:0,//共多少页
             pageRows:10,//每页显示的条数
             page:0,
+            fileUrl:'',
             form:{
 
             },
@@ -208,15 +209,22 @@ export default {
                     deleteUploadFileId:this.uploadDeleteUploadFileId
                 })
                 .then(res => {
-                    if(res.data){
-                    //_this.goBackSubmitList();
-                    // _this.isTaskDetail = true;
-                        //this.taskTable = this.taskSubmitTable;
+                    if(res.data.success == 'true'){
                         _this.isTaskDetail = false;
                         _this.isSubmitTask = false;
                         _this.isShowSubmit = false;
                         _this.goBackSubmitList(this.taskId);
+                        _this.submitTaskData(_this.taskId)
+                        _this.$message({
+                            type: 'success',
+                            message: res.data.successMessage
+                        });
 
+                    }else{
+                        _this.$message({
+                            type: 'error',
+                            message: res.data.errorMessage
+                        });
                     }
                 })
                 .catch(function (error) {
@@ -246,11 +254,10 @@ export default {
                 if(res.data){
                    this.form = res.data.taskSubmitRecord;
                    this.attachList = res.data.taskSubmitRecord.attachList;
-                   //this.userIsApplyRecord = res.data.userIsApplyRecord;
-                   console.log(res.data);
                    this.experience = res.data.taskSubmitRecord.experience;
                    this.point =  res.data.taskSubmitRecord.point;
-                   this.auditResult = res.data.taskSubmitRecord.auditResult
+                   this.auditResult = res.data.taskSubmitRecord.auditResult;
+                   this.fileUrl = res.data.fileUrl;
                 }
             })
             .catch(function (error) {
@@ -333,14 +340,22 @@ export default {
             this.page = page-1;
             this.getTaskData();
         },
+        download(attach){//下载附件
+            if(!attach.resourcesName){
+                return;
+            }
+            location.href =   this.fileUrl +attach.resourcesName;
+        },
     },
-    personActive(val){
-            console.log(val);
-            if(val == '1'){
+    watch:{
+        personActive(val){
+            if(val == 1){
                 this.getTaskData();
-                this. goBack();
+                this.goBack();
             }
         }
+    }
+    
 }
 </script>
 <style lang="scss">

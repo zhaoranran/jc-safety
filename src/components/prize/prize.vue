@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="prize-content">
-                <ul>
+                <ul v-if="prizeList.length>0">
                     <li v-for="(item,index) in prizeList" :key="index">
                         <a href="javascript:void(0)"  @click="getDescribe(item.id)">
                             <img :src="item.resourceName" alt="">
@@ -27,6 +27,7 @@
                         </a>
                     </li>
                 </ul>
+                <div class="no-data">暂无数据</div>
             </div>
         </div>
         

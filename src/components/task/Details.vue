@@ -49,7 +49,7 @@
                     <div>附件：</div>
                     <ul>
                         <li v-for="(item,index) in attachNewsList" :key="index">
-                            <a :href="item.fileNameUrl">{{item.fileName}}<i class="icon iconfont iconruku"></i></a>
+                            <a @click="download(item)" href="javascript:void(0);">{{item.fileName}}<i class="icon iconfont iconruku"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -85,6 +85,7 @@ export default {
             errorMessage:'',
             isOnclickFlage:true,
             userIsApplyRecord:false,//是否显示附件
+            fileUrl:''
         }
     },
     components:{
@@ -107,11 +108,13 @@ export default {
             })
             .then(res => {
                 if(res.data){
-                    this.detailsData = res.data.taskInfo;
-                    this.attachNewsList = res.data.attachList;
-                    this.isOnclickFlage = res.data.isOnclickFlage;
-                    this.errorMessage = res.data.errorMessage;
-                    this.userIsApplyRecord = res.data.userIsApplyRecord;
+                    console.log(res.data);
+                    _this.detailsData = res.data.taskInfo;
+                    _this.attachNewsList = res.data.attachList;
+                    _this.isOnclickFlage = res.data.isOnclickFlage;
+                    _this.errorMessage = res.data.errorMessage;
+                    _this.userIsApplyRecord = res.data.userIsApplyRecord;
+                    _this.fileUrl = res.data.fileUrl;
                 }
             })
         },
@@ -166,7 +169,13 @@ export default {
                     });  */         
                 });
             }
-        }
+        },
+        download(attach){//下载附件
+            if(!attach.resourcesName){
+                return;
+            }
+            location.href =   this.fileUrl +attach.resourcesName;
+        },
     }
 }
 </script>

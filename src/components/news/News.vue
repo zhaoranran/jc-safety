@@ -8,8 +8,8 @@
             </div>
         </div>
         <div class="new-content">
-            <ul>
-                <li v-for="(item,index) in newsList" @click="getDescribe(item.id)">
+            <ul v-if="newsList.length>0">
+                <li v-for="(item,index) in newsList" :key="index" @click="getDescribe(item.id)">
                     <a href="javascript:void(0)">
                         <img :src="item.resourceName" alt="">
                         <div class="module-title new-title">
@@ -19,6 +19,7 @@
                     </a>
                 </li>
             </ul>
+            <div class="no-data">暂无数据</div>
         </div>
     </div>
 </template>
@@ -62,6 +63,9 @@ export default {
  .news{
      background:#fff;
      margin-bottom:60px;
+ }
+ .news .no-data{
+     padding-bottom:20px;
  }
  .news-header{
      margin-top:70px;

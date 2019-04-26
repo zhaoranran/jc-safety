@@ -42,7 +42,7 @@ export default {
 <style>
     
     .banner{
-        width:100%;
+        min-width: 1200px;
         height: 470px;
     }
     .banner img{

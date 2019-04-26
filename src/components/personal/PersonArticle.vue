@@ -64,11 +64,14 @@
                 </el-form-item>
                 <el-form-item label="文章附件">
                     <v-upload  v-if="showLookOrEdit" @fileid="fileid" @deleteUploadFileId="deleteUploadFileId"></v-upload>
-                    <ul>
-                        <li v-for="(item,index) in attachList" :key="index">
-                            <a :href="item.fileNameUrl">{{item.fileName}}<i class="icon iconfont iconruku"></i></a>
-                        </li>
-                    </ul>
+                    <div v-if='attachList.length>0' class="notice-details-affix">
+                        <div>附件：</div>
+                        <ul>
+                            <li v-for="(item,index) in attachList" :key="index">
+                                <a @click="download(item)" href="javascript:void(0);">{{item.fileName}}<i class="icon iconfont iconruku"></i></a>
+                            </li>
+                        </ul>
+                    </div>
                 </el-form-item>
                 <el-form-item>
                 <el-button type="primary" @click="getToken(ruleForm.id,ruleForm.modifyDate,'ruleForm')" v-if="showLookOrEdit"> 保存</el-button>
@@ -94,6 +97,7 @@ export default {
             pageRows:10,//每页显示的条数
             page:0,
             ruleForm:{},
+            fileUrl:'',
             rules:{
                 articleTitle:[
                     { required: true, message: '请输入文章标题', trigger: 'blur'  },
@@ -239,19 +243,19 @@ export default {
         },
         /* 文章的提交 */
         ariticleSubmit(index,row){
-        this.$confirm('请确认是否提交', '确认', {
-            confirmButtonText: '是',
-            cancelButtonText: '否',
-            type: 'success'
-        }).then(() => {
-            this.articleSubmitDate(row.id);
+            this.$confirm('请确认是否提交', '确认', {
+                confirmButtonText: '是',
+                cancelButtonText: '否',
+                type: 'success'
+            }).then(() => {
+                this.articleSubmitDate(row.id);
 
-        }).catch(() => {
-        this.$message({
-            type: 'info',
-            message: '已取消'
-            });          
-        });
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消'
+                });          
+            });
         },
         lookArticle(index, row ,type){
             this.isShowArticleDetail = true;
@@ -341,6 +345,7 @@ export default {
                 if(res.data){
                     _this.ruleForm = res.data;
                     _this.attachList = res.data.attachList;
+                    _this.fileUrl = res.data.fileUrl;
                 }
             })
             .catch(function (error) {
@@ -351,10 +356,16 @@ export default {
             this.page = page-1;
             this.getArticleData();
         },
+        download(attach){//下载附件
+            if(!attach.resourcesName){
+                return;
+            }
+            location.href =   this.fileUrl +attach.resourcesName;
+        },
     },
     watch:{
         personActive(val){
-            if(val == '2'){
+            if(val == 2){
                 this.getArticleData();
                 this.goBack();
             }

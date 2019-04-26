@@ -12,7 +12,8 @@ export default {
     
     data(){
         return {
- navActive:0
+          navActive:0,
+          token:''
         }
     },
     components:{
@@ -21,6 +22,7 @@ export default {
     },
     mounted() {
       // console.log(window.sessionStorage.getItem("token"));
+      
     },
     methods:{
       /* presentIndex(data){
@@ -57,7 +59,7 @@ export default {
         if(n.name === 'personal') {
           this.navActive = 6
         }
-      }
+      },
     },
     beforeRouteEnter(to,from,next) {
       next(vm=>{

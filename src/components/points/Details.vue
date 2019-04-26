@@ -29,7 +29,7 @@
                     </div>
                     <div class="product-details">
                         <h3 class="commont-title"><span>商品详情</span></h3>
-                        <p>{{details.goodsDetail}}</p>
+                        <div v-html="details.goodsDetail"></div>
                     </div>
                 </div>
             </div>
@@ -194,7 +194,7 @@ export default {
     .submit a:hover{
         background:$global-a-hover-color ;
     }
-    .product-details p{
+    .product-details div{
         margin-top:30px;
         line-height: 35px;
         word-break: break-all;

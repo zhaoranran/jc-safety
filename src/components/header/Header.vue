@@ -34,6 +34,8 @@ export default {
             
             userInfo:{
                 userName:'小白猫',
+                token:'',
+                userId:''
             },
            navList:[
                {
@@ -83,7 +85,8 @@ export default {
                    url:'personal',
                    navActive:7
                }
-           ]
+           ],
+           timer:null
         }
     },
     props:{
@@ -95,11 +98,13 @@ export default {
     mounted() {
         let _this = this;
         this.$nextTick(()=>{
-            this.userInfo.userName = window.sessionStorage.getItem("username");
-            if(this.userInfo.userName != null){
-                this.hasLogin = true
+            _this.userInfo.userName = window.sessionStorage.getItem("username");
+            _this.userInfo.userId = window.sessionStorage.getItem("userId");
+            _this.userInfo.token = window.sessionStorage.getItem("token");
+            if(_this.userInfo.userName != null){
+                _this.hasLogin = true
             }else{
-               this.hasLogin = false 
+               _this.hasLogin = false 
             }
         });
         Bus.$on('sessionToken', (data) => {

@@ -140,12 +140,12 @@
 .notice-details-affix>div{
     width:55px;
 }
-.notice-details-affix>ul{
+.notice-details-affix ul{
     flex: 1;
 }
-.notice-details-affix>ul a{
+.notice-details-affix a{
     color:#f37016;
 }
-.notice-details-affix>ul a i{
+.notice-details-affix a i{
     margin-left:10px;
 }

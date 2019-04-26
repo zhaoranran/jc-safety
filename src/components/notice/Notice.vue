@@ -15,18 +15,21 @@
                         </ul>
                     </div>
                 </div>
-                <div class="notice-right" v-if="noticeList.length>0">
-                    <h2 class="commont-title"><span>{{titleVale}}</span></h2>
-                    <a v-for="(item,index) in noticeList" :key="index" class="notice-list" @click="getDescribe(item.id)" >
-                        <div class="list-left">
-                            <img :src="item.resourceName != null?item.resourceName:require('../../assets/images/news-nodata.jpg')" alt="">
-                        </div>
-                        <div class="list-right">
-                            <h3><span v-show="item.topDate">[置顶]</span><b  class="over-hide" :title="item.title">{{item.newsTitle}}</b></h3>
-                            <p>{{subStr(item.newsAbstract)}}<a href="javascript:void(0);" >[详情]</a><span class="time">{{item.releaseDate}}</span></p>
-                        </div>
-                    </a>
-                    <v-pager v-show="totalPages>1" @currentPager="currentPager" :totalPages="totalPages" :pageRows="pageRows" ></v-pager>
+                <div class="notice-right">
+                    <div v-if="noticeList.length>0">
+                        <h2 class="commont-title"><span>{{titleVale}}</span></h2>
+                        <a v-for="(item,index) in noticeList" :key="index" class="notice-list" @click="getDescribe(item.id)" >
+                            <div class="list-left">
+                                <img :src="item.resourceName != null?item.resourceName:require('../../assets/images/news-nodata.jpg')" alt="">
+                            </div>
+                            <div class="list-right">
+                                <h3><span v-show="item.topDate">[置顶]</span><b  class="over-hide" :title="item.title">{{item.newsTitle}}</b></h3>
+                                <p>{{subStr(item.newsAbstract)}}<a href="javascript:void(0);" >[详情]</a><span class="time">{{item.releaseDate}}</span></p>
+                            </div>
+                        </a>
+                        <v-pager v-show="totalPages>1" @currentPager="currentPager" :totalPages="totalPages" :pageRows="pageRows" ></v-pager>
+                    </div>
+                    <div v-else class="no-data">暂无数据</div>
                 </div>
             </div>
         </div>
@@ -127,7 +130,7 @@ export default {
 @import '../../assets/sass/common.scss';
 
 .notice{
-    min-height: 697px;
+    min-height: 612px;
     background:#f7f8fa;
 }
 .notice-conter{
@@ -202,6 +205,12 @@ export default {
     padding-right: 20px;
     padding-bottom:40px;
     background:#fff;
+}
+.notice .no-data{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 534px;
 }
 .notice-list{
     display: block;
