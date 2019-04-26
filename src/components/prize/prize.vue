@@ -12,13 +12,15 @@
                 <ul>
                     <li v-for="(item,index) in prizeList" :key="index">
                         <a href="javascript:void(0)"  @click="getDescribe(item.id)">
-                            <img :src="item.pic" alt="">
+                            <img :src="item.resourceName" alt="">
                             <div class="module-title prize-title">
-                                <h4>{{item.title}}</h4>
+                                <h4 class="over-hide">{{item.goodsName}}</h4>
                                 <p>
-                                    <span class="prize-total"><i class="icon iconfont iconintegral"></i>{{item.total}}</span>
-                                    <span><i class="icon iconfont iconshuju"></i>{{item.num1}}</span>
-                                    <span><i class="icon iconfont iconjiangpin01"></i>{{item.num1}}</span>
+                                    <span class="prize-total"><i class="icon iconfont iconintegral"></i>{{item.goodsPrice}}</span>
+                                    <!-- 销售数量 -->
+                                    <!-- <span><i class="icon iconfont iconshuju"></i>{{item.num1}}</span> -->
+                                    <!-- 剩余数量 -->
+                                    <span><i class="icon iconfont iconjiangpin01"></i>{{item.goodsNum}}</span>
                                 </p>
                             </div>
                             
@@ -35,66 +37,11 @@
 export default {
     data(){
         return {
-           prizeList:[
-               {
-                   title:'黑客攻防工具实战',
-                    total:'1000',
-                    num1:'20',
-                    num2:'20',
-                    pic:require('../../assets/images/prize.png'),
-                    id:1
-               },
-               {
-                   title:'黑客攻防工具实战',
-                    total:'1000',
-                    num1:'20',
-                    num2:'20',
-                    pic:require('../../assets/images/prize.png'),
-                    id:2
-               },
-               {
-                   title:'黑客攻防工具实战',
-                    total:'1000',
-                    num1:'20',
-                    num2:'20',
-                    pic:require('../../assets/images/prize.png'),
-                    id:3
-               },
-               {
-                   title:'黑客攻防工具实战',
-                    total:'1000',
-                    num1:'20',
-                    num2:'20',
-                    pic:require('../../assets/images/prize.png'),
-                    id:4
-               },
-               {
-                   title:'黑客攻防工具实战',
-                    total:'1000',
-                    num1:'20',
-                    num2:'20',
-                    pic:require('../../assets/images/prize.png'),
-                    id:5
-               },
-               {
-                   title:'黑客攻防工具实战',
-                    total:'1000',
-                    num1:'20',
-                    num2:'20',
-                    pic:require('../../assets/images/prize.png'),
-                    id:6
-               },
-               {
-                   title:'黑客攻防工具实战',
-                    total:'1000',
-                    num1:'20',
-                    num2:'20',
-                    pic:require('../../assets/images/prize.png'),
-                    id:7
-               },
-               
-           ] 
+           prizeList:[] 
         }
+    },
+    mounted(){
+        this.getPointsList();
     },
     methods: {
         collect(){
@@ -104,6 +51,19 @@ export default {
         this.$router.push({
           path: `/points-details/${id}`,
         })
+      },
+      getPointsList(){
+          this.$axios.post('/goods/goodsInfoApi/manageList.action',{
+            pageRows:8
+        })
+        .then(res => {
+            if(res.data){
+                this.prizeList = res.data.data;
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
       },
     },
 }
@@ -130,7 +90,7 @@ export default {
 .prize-content li+li{
     margin-left:40px;
 }
-.prize-content li:nth-child(5n){
+.prize-content li:nth-child(4n+1){
     margin-left: 0px;
 }
 .prize-content li a{

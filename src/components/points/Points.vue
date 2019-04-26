@@ -17,7 +17,7 @@
                         <div class="goods-classify">
                             <ul>
                                 <li v-for="(item,index) in classifyList" :key="index">
-                                    <a href="javascript:void(0);" :class="{ active:index == pointsActive}" @click="addClassPoints(index,item,$event)">{{item.name}}</a>
+                                    <a href="javascript:void(0);" :class="{ active:index == pointsActive}" @click="addClassPoints(index,item,$event)">{{item.value}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -27,7 +27,7 @@
                         <div class="goods-total">
                             <ul>
                                 <li v-for="(item,index) in totalList" :key="index" >
-                                    <a href="javascript:void(0);" :class="{ active:index == totalActive}" @click="addClassTotal(index,item,$event)">{{item}}</a>
+                                    <a href="javascript:void(0);" :class="{ active:index == totalActive}" @click="addClassTotal(index,item,$event)">{{item.name}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -38,7 +38,7 @@
                 <div class="module-rank">
                     <ul>
                         <li v-for="(item,index) in rankList" :key="index">
-                            <a href="javascript:void(0);" :class="{ active:index==rankActive}" @click="getHeroesList(index,item,$event)"  @click.stop="rankUp">
+                            <a href="javascript:void(0);" :class="{ active:index==rankActive}" @click="setPointsList(index,item,$event)">
                                 {{item.name}}
                                 <i v-if="index == 1" class="icon iconfont " :class="upDown?'iconshengjiangxu_jiangxu-moren':'iconshengjiangxu_shengxu-moren'"></i>
                                 </a>
@@ -46,30 +46,27 @@
                     </ul>
                 </div>
                 <div class="points-ls">
-                    <ul>
+                    <ul v-if="pointsList.length>0">
                         <li v-for="(item,index) in pointsList" :key="index">
                             <a href="javascript:void(0);" @click="getDescribe(item.id)">
-                                <img :src="item.pic" alt="">
-                                <p class="points-money">
-                                    现金：
-                                    <span>{{item.money}}</span>
-                                    元
-                                </p>
+                                <img :src="item.resourceName != null?item.resourceName:require('../../assets/images/points-nodata.jpg')" alt="">
+                                <p class="points-money over-hide" :title="item.goodsName">{{item.goodsName}}</p>
                                 <p>
                                     <span class="points-total">
                                         <i class="icon iconfont iconintegral"></i>
-                                        {{item.total}}积分
+                                        {{item.goodsPrice}}积分
                                     </span>
                                     <span>
                                         <i class="icon iconfont iconjiangpin01"></i>
-                                        {{item.num}}个
+                                        {{item.goodsNum}}个
                                     </span>
                                 </p>
                             </a>
                         </li>
                     </ul>
+                    <div v-else class="no-data">暂无数据</div>
                 </div>
-                <v-pager></v-pager>
+                <v-pager v-show="totalPages>1" @currentPager="currentPager" :totalPages="totalPages" :pageRows="pageRows" ></v-pager>
             </div>
         </div>
     </div>
@@ -85,6 +82,12 @@ export default {
              pointsActive:0,
              totalActive:0,
              rankActive:0,
+             totalPages:0,//共多少页
+             pageRows:10,//每页显示的条数
+             page:0,
+             goodsPriceBegin:'',//积分开始
+             goodsPriceEnd:'',//积分结束
+             goodsType:'',//商品分类
              upDown:true,
               activeName: 'first',
               rankList:[
@@ -107,116 +110,122 @@ export default {
             //分类列表
             classifyList:[
                 {
-                    name:'全部',
-                    id:0
-                },
-                {
-                    name:'奖金奖励',
-                    id:1
-                },
-                {
-                    name:'数码产品',
-                    id:2
-                },
-                {
-                    name:'生活周边',
-                    id:3
-                },
-                {
-                    name:'专业书籍',
-                    id:4
-                },
-                {
-                    name:'腾讯周边',
-                    id:5
+                    value:'全部',
+                    code:''
                 }
             ],
             //积分列表
             totalList:[
-                '全部','0-100','100-300','300-800','800-1600','1600以上'
-
+                {
+                    name:'全部',
+                    goodsPriceBegin:'',
+                    goodsPriceEnd:'',
+                },
+                {
+                    name:'0-100',
+                    goodsPriceBegin:0,
+                    goodsPriceEnd:100,
+                },
+                {
+                    name:'100-300',
+                    goodsPriceBegin:100,
+                    goodsPriceEnd:300,
+                },
+                {
+                    name:'300-800',
+                    goodsPriceBegin:300,
+                    goodsPriceEnd:800,
+                },
+                {
+                    name:'800-1600',
+                    goodsPriceBegin:800,
+                    goodsPriceEnd:1600,
+                },
+                {
+                    name:'1600以上',
+                    goodsPriceBegin:1600,
+                    goodsPriceEnd:'',
+                }
             ],
 
-            pointsList:[
-                {
-                    pic:require("../../assets/images/point.png"),
-                    money:'5000',
-                    total:1000,
-                    num:216,
-                    id:1
-                },
-                {
-                    pic:require("../../assets/images/point.png"),
-                    money:'5000',
-                    total:1000,
-                    num:216,
-                    id:2
-                },
-                
-                {
-                    pic:require("../../assets/images/point.png"),
-                    money:'5000',
-                    total:1000,
-                    num:216,
-                    id:3
-                },
-                
-                {
-                    pic:require("../../assets/images/point.png"),
-                    money:'5000',
-                    total:1000,
-                    num:216,
-                    id:4
-                },
-                
-                {
-                    pic:require("../../assets/images/point.png"),
-                    money:'5000',
-                    total:1000,
-                    num:216,
-                    id:5
-                },
-                
-                {
-                    pic:require("../../assets/images/point.png"),
-                    money:'5000',
-                    total:1000,
-                    num:216,
-                    id:6
-                },
-                {
-                    pic:require("../../assets/images/point.png"),
-                    money:'5000',
-                    total:1000,
-                    num:216,
-                    id:7
-                },
-                
-            ]
+            pointsList:[]
         }
     },
     components:{
        'v-pager':Pager
     },
+    mounted(){
+        this.getclassifyList();
+        this.getPointsList();
+    },
     methods: {
       addClassPoints(index,item,$event) {
         this.pointsActive=index;
+        this.goodsType = item.code;
+        this.getPointsList();
       },
       addClassTotal(index,item,$event){
-          this.totalActive=index;
+        this.totalActive=index;
+        this.goodsPriceBegin = item.goodsPriceBegin;
+        this.goodsPriceEnd = item.goodsPriceEnd;
+        this.getPointsList();
       },
       getDescribe(id) {
         this.$router.push({
           path: `/points-details/${id}`,
         })
       },
-      getHeroesList(index,item,$event){
+      getPointsList(){
+          let orderBy = this.upDown?'createDate desc':'createDate asc'
+          this.$axios.post('/goods/goodsInfoApi/manageList.action',{
+            page:this.page,
+            pageRows:12,
+            orderBy:orderBy,
+            goodsPriceBegin:this.goodsPriceBegin,
+            goodsPriceEnd:this.goodsPriceEnd,
+            goodsType:this.goodsType
+        })
+        .then(res => {
+            if(res.data){
+                res = res.data;
+                this.pointsList = res.data;
+                this.pageRows = res.pageRows;
+                this.totalPages = res.totalPages;
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      },
+      getclassifyList(){
+        this.$axios.post('/goods/goodsInfoApi/getGoodsDicList.action')
+        .then(res => {
+            if(res.data){
+                for(var i=0;i<res.data.length;i++){
+                    this.classifyList.push(res.data[i]);
+                }
+               
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      },
+      setPointsList(index,item,$event){
         this.rankActive=index;
+        if(item.type == 'money'){
+            this.upDown = !this.upDown;
+        }
 　　　　  //获取点击对象     
         var el = event.currentTarget;
+        if(item){
+
+        }
+        this.getPointsList();
       },
-      rankUp(){
-          this.upDown = !this.upDown;
+      currentPager(page){
+        this.page = page-1;
+        this.getPointsList();
       }
     }
 }
@@ -262,36 +271,8 @@ export default {
 .goods-total,.goods-classify{
     display: inline-block;
 }
-.el-tabs__header{
-    height: 75px;
-    background: #fff;
-    padding-left:20px;
-}
-.el-tabs__nav-wrap::after{
-    z-index: -1;
-}
-.el-tabs__item{
-    width:120px;
-    height: 40px;
-    border-top:1px solid #ededed;
-    border-bottom:1px solid #ededed;
-    color:#777;
-    background:#fafafa;
-    text-align: center;
-}
-.el-tabs__item + .el-tabs__item{
-    border-left: 1px solid #ededed;
-}
-.el-tabs__item:last-child{
-    border-right: 1px solid #ededed;
-}
-.el-tabs__item.is-active{
-    color:#444;
-    font-weight: 800;
-    background:#fff;
-}
-.el-tabs__active-bar{
-    display: none;
+.points-ls{
+    min-height: 433px;
 }
 .points-ls ul{
     display: flex;
@@ -303,7 +284,7 @@ export default {
 .points-ls ul li + li{
     margin-left: 40px;
 }
-.points-ls ul li:nth-child(5n){
+.points-ls ul li:nth-child(4n+1){
     margin-left: 0px;
 }
 .points-ls li a{
@@ -319,8 +300,10 @@ export default {
     box-shadow:1px 1px 3px 2px #ccc ;
 }
 .points-ls li a img{
+    display: block;
     width:270px;
     height: 270px;
+    border-radius: 4px;
 }
 .points-ls li a p{
     padding:0 15px;
@@ -328,6 +311,7 @@ export default {
     line-height: 40px;
 }
 .points-ls li  .points-money{
+    max-height: 270px;
     color:#000;
 
 }
@@ -342,5 +326,7 @@ export default {
     
     margin-bottom:90px;
 }
-
+.points .no-data{
+    height: 493px;
+}
 </style>

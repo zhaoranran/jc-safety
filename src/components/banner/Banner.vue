@@ -20,11 +20,11 @@ export default {
                 {
                     name:require('../../assets/images/banner01.png')
                 },
-                {
+                /* {
                     name:require('../../assets/images/banner02.png')
                 },{
                     name:require('../../assets/images/banner03.png')
-                }
+                } */
             ]
         }
     },

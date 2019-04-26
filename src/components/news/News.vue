@@ -11,12 +11,11 @@
             <ul>
                 <li v-for="(item,index) in newsList" @click="getDescribe(item.id)">
                     <a href="javascript:void(0)">
-                        <img :src="item.pic" alt="">
+                        <img :src="item.resourceName" alt="">
                         <div class="module-title new-title">
-                            <h4 class="over-hide" :title="item.title">{{item.title}}</h4>
-                            <p class="over-hides">{{item.content}}</p>
+                            <h4 class="over-hide" :title="item.title">{{item.newsTitle}}</h4>
+                            <p class="over-hides">{{item.newsAbstract}}</p>
                         </div>
-                        
                     </a>
                 </li>
             </ul>
@@ -28,33 +27,32 @@
 export default {
     data(){
         return {
-            newsList:[
-                {
-                    title:'以攻促防————企业蓝军建设思考',
-                    content:'相信未来会用更好的企业建设网络啥撒旦法师打发阿斯顿发送到发的阿斯顿发达',
-                    pic:require('../../assets/images/news.png'),
-                    id:1
-                },
-                {
-                    title:'以攻促防————企业蓝军建设思考',
-                    content:'相信未来会用更好的企业建设网络啥撒旦法师打发阿斯顿发送到发的阿斯顿发达',
-                    pic:require('../../assets/images/news.png'),
-                    id:2
-                },
-                {
-                    title:'以攻促防————企业蓝军建设思考',
-                    content:'相信未来会用更好的企业建设网络啥撒旦法师打发阿斯顿发送到发的阿斯顿发达',
-                    pic:require('../../assets/images/news.png'),
-                    id:3
-                }
-            ]
+            newsList:[]
         }
+    },
+    mounted(){
+        this.getNoticeList();
     },
     methods:{
         getDescribe(id) {
         this.$router.push({
           path: `/notice-details/${id}`,
         })
+      },
+      getNoticeList(){
+        this.$axios.post('/news/newsInfoApi/manageList.action',{
+           newsType:'',
+            pageRows:3
+        })
+        .then(res => {
+            if(res.data){
+                res = res.data;
+                this.newsList = res.data;
+            }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
       },
     }
 }

@@ -1,8 +1,7 @@
 <template>
     <div class="crumbs m-t-90">
         <el-breadcrumb separator-class="el-icon-arrow-right" class="module">
-            <el-breadcrumb-item :to="{ path: '/home' }"><i class="icon iconfont icondingwei"></i>首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-for="(item,index) in crumbsList" :key="index">{{item}}</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="(item,index) in crumbsList" :key="index" ><i v-show="index==0" class="icon iconfont icondingwei"></i>{{item.name}}</el-breadcrumb-item>
         </el-breadcrumb>
     </div>
 </template>
@@ -36,7 +35,7 @@ export default {
         font-weight: normal;
         color:#666;
     }
-    .el-breadcrumb__inner.is-link .icondingwei{
+    .crumbs .icondingwei{
         background-image: -webkit-gradient(linear, left 0, right 0, from(#ce643e), to(#fabe1c));
         -webkit-background-clip: text; /*必需加前缀 -webkit- 才支持这个text值 */
         -webkit-text-fill-color: transparent; /*text-fill-color会覆盖color所定义的字体颜色： */

@@ -1,13 +1,13 @@
 <template>
     <div class="know">
         <div class="know-title">
-            <h3>嘉城的道路上感谢有你关注</h3>
+            <h3>嘉诚的道路上感谢有你关注</h3>
             <h4>Thank you for your attention on the way to Jiachegn.</h4>
             <p>嘉诚一直致力于保护广大用户的安全，嘉诚安全应急响应中心（Jc Security Response Center） 非常欢迎广大多年的安全研究经验，最新的技术前沿报告，尽在TSRC博客频道。</p>
         </div>
         
         <div class="module-more">
-            <a href="#" >
+            <a href="#/about" >
                 了解我们
             </a>
         </div>

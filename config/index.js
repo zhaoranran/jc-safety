@@ -1,16 +1,58 @@
 'use strict'
 // Template version: 1.3.1
 // see http://vuejs-templates.github.io/webpack for documentation.
-
 const path = require('path')
+var hostname = null
+var route_proxy = false
+var publicPath = 'http://192.168.200.112:8081/jcsrc/'
+/* if(process.env.NODE_ENV === 'development') {
+  publicPath = 'http://192.168.200.113:8080/jcsrc'
+}
+if(process.env.NODE_ENV === 'proxy') {
+  hostname = 'http://www.jiachengnet.com/'
+  route_proxy = true
+}else{
+  hostname = ''
+} */
 
 module.exports = {
+  hostname:hostname,
+  publicPath:publicPath,
+  route_proxy:route_proxy,
+  proxy: {
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/jcsrc/',
+    proxyTable: {
+      '/api': {
+        target: 'http://192.168.200.112:8081/jcsrc/',//设置你调用的接口域名和端口号 别忘了加http
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''//这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
+        }
+      }
+    },
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
+    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    autoOpenBrowser: false,
+    errorOverlay: true,
+    notifyOnErrors: true,
+    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+    mock: false,
+    devtool: 'cheap-module-eval-source-map',
+    cacheBusting: true,
+    cssSourceMap: true
+  },
   dev: {
 
     // Paths
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-    proxyTable: {},
+    assetsPublicPath: '',
+    proxyTable: {
+      '/': {
+        target: 'http://192.168.200.112:8081', //目标接口域名
+        changeOrigin: true, //是否跨域
+      }
+    },
 
     // Various Dev Server settings
     host: '192.168.200.65', // can be overwritten by process.env.HOST
@@ -19,7 +61,7 @@ module.exports = {
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
-
+    
     
     /**
      * Source Maps
@@ -43,8 +85,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
-
+    assetsPublicPath: '/jcsrc/',
     /**
      * Source Maps
      */

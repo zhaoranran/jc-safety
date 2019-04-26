@@ -3,7 +3,9 @@
         <el-pagination
         background
         layout="prev, pager, next"
-        :total="1000" class="my-page">
+        :page-size="pageRows"
+        @current-change="handleCurrentChange"
+        :page-count="totalPages" class="my-page">
         </el-pagination>
     </div>
 </template>
@@ -12,7 +14,15 @@
 export default {
     data(){
         return {
-
+        }
+    },
+    props:[
+        'totalPages',
+        'pageRows'
+    ],
+    methods:{
+        handleCurrentChange(pager){
+           this.$emit('currentPager',pager);
         }
     }
 }

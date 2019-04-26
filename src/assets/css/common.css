@@ -80,13 +80,12 @@
 }
 /* 多行 */
 .over-hides{
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
 }
-
 
 .module-rank{
     padding:15px 20px;
@@ -124,4 +123,29 @@
 }
 .module-rank li + li{
     border-right: 1px solid #ddd;
+}
+.no-data{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notice-details-affix{
+    display:flex;
+    padding-top:30px;
+    border-top:1px dashed #ccc;
+    margin-bottom: 20px;
+}
+.notice-details-affix>div{
+    width:55px;
+}
+.notice-details-affix>ul{
+    flex: 1;
+}
+.notice-details-affix>ul a{
+    color:#f37016;
+}
+.notice-details-affix>ul a i{
+    margin-left:10px;
 }

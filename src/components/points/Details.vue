@@ -6,20 +6,20 @@
                 <div class="points-details-content ">
                     <div class="points-details-top">
                         <div class="points-details-img">
-                            <img :src="details.pic" alt="">
+                            <img :src="details.resourceName" alt="">
                         </div>
                         <div class="points-details-right">
-                            <h3 class="over-hides">{{details.title}}</h3>
-                            <p class="convert-money">兑换价格<span>{{details.convert}}</span>积分</p>
-                            <p class="convert-has">已兑换<span>{{details.hasConvert}}</span>件</p>
+                            <h3 class="points-title over-hides" :title="details.goodsName">{{details.goodsName}}</h3>
+                            <p class="convert-money">兑换价格<span>{{details.goodsPrice}}</span>积分</p>
+                            <p class="convert-has">已兑换<span>0</span>件</p>
                             <div class="conver-num">
                                 <span>兑换数量</span>
                                 <div class="choose-amount">
                                     <a class="minus" @click="removeNum">-</a>
-                                    <span>{{details.convertNum}}</span>
+                                    <span>{{numbers}}</span>
                                     <a class="add" @click="addNum">+</a>
                                 </div>
-                                <span class="residue">剩余{{details.residue}}件</span>
+                                <span class="residue">剩余{{details.goodsNum}}件</span>
                             </div>
                             <div class="submit">
                                 <a  v-if="isCLick" href="javascript:void(0);" >兑换</a>
@@ -28,8 +28,8 @@
                         </div>
                     </div>
                     <div class="product-details">
-                        <h3 class="commont-title"><span>产品详情</span></h3>
-                        <p>{{details.productDetails}}</p>
+                        <h3 class="commont-title"><span>商品详情</span></h3>
+                        <p>{{details.goodsDetail}}</p>
                     </div>
                 </div>
             </div>
@@ -42,34 +42,55 @@ import Crumbs from '../../components/crumbs/Crumbs'
 export default {
     data(){
         return {
-            isCLick:true,//是否可以兑换
+            isCLick:false,//是否可以兑换
             navActive:3,
-            details:{
-                pic:require('../../assets/images/convert.png'),
-                title:'航世（B.O.W）HW0981 巧克力静音无线键盘鼠标套装',
-                convert:136,//兑换价格
-                hasConvert:0,//已经兑换
-                convertNum:1,//兑换数量
-                residue:9,//剩余
-                productDetails:'航世（B.O.W）HW098 巧克力静音无线键盘鼠标套装 超薄便携家用办公键鼠套装 白色 ',//产品详情
-            },
-            crumbsList:['积分商城','航世（B.O.W）HW098 巧克力静音无线键盘鼠标套装 超薄便携家用办公键鼠套装 白色']
+            numbers:1,
+            details:{},
+            crumbsList:[
+                {
+                    name:'首页',
+                    url:'/home'
+                },
+                {
+                    name:'积分商城',
+                    url:'/points'
+                },
+                {
+                    name:'商品详情',
+                    url:''
+                },
+            ],
         }
     },
     components:{
        'v-crumbs':Crumbs
     },
+    mounted(){
+        let id = this.$route.params.id;
+        this.getDetails(id);
+    },
     methods:{
         removeNum(){
-            if(this.details.convertNum>0){
-                this.details.convertNum--
+            if(this.numbers>0){
+                this.numbers--
             }
         },
         addNum(){
-            if(this.details.convertNum<this.details.residue){
-                this.details.convertNum++;
+            if(this.numbers<this.details.goodsNum){
+                this.numbers++;
             }
             
+        },
+        getDetails(id){
+            this.$axios.post('/goods/goodsInfoApi/get.action',{
+                id:id
+        })
+        .then(res => {
+            if(res.data){
+                this.details = res.data;
+                console.log(this.details)
+            }
+        })
         }
     }
 }
@@ -101,7 +122,7 @@ export default {
         flex:1;
         position: relative;
     }
-    .points-details-right h3{
+    .points-details-right .points-title{
         max-width: 655px;
         font-size: 22px;
         color:#666;
@@ -176,6 +197,7 @@ export default {
     .product-details p{
         margin-top:30px;
         line-height: 35px;
+        word-break: break-all;
     }
     .submit a.noClass{
         background:#dddddd;

@@ -3,17 +3,17 @@
         <v-crumbs :crumbsList="crumbsList"></v-crumbs>
         <div class="module notice-details-content">
             <div class="notice-details-header">
-                 <h3 class="details-title">关于发布360手机安全漏洞奖励计划说明 </h3>
-                <p class="time">发布日期：<span>2019-04-15 </span></p>
+                 <h3 class="details-title">{{detailsData.newsTitle}}</h3>
+                <p class="time">发布日期：<span>{{detailsData.releaseDate}}</span></p>
             </div>
            
-            <div class="notice-details-container">
-                       为了保障360手机OS开发安全，360安全团队协助在360手机操作系统及应用开发上提供必要的安全性防范措施，全面       为了保障360手机OS开发安全，360安全团队协助在360手机操作系统及应用开发上提供必要的安全性防范措施，全面       为了保障360手机OS开发安全，360安全团队协助在360手机操作系统及应用开发上提供必要的安全性防范措施，全面
-            </div>
+            <div class="notice-details-container" v-html="detailsData.newsText"></div>
             <div class="notice-details-affix">
                 <div>附件：</div>
                 <ul>
-                    <li><a href="javascript:void(0);">下载360手机安全漏洞响应流程.pdf<i class="icon iconfont icondingwei"></i></a></li>
+                    <li v-for="(item,index) in attachNewsList" :key="index">
+                        <a :href="item.fileNameUrl">{{item.fileName}}<i class="icon iconfont iconruku"></i></a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -27,12 +27,44 @@ export default {
     data(){
         return {
             navActive:4,
-            crumbsList:['活动管理','活动列表','活动详情']
+            crumbsList:[
+                {
+                    name:'首页',
+                    url:'/home'
+                },
+                {
+                    name:'公告中心',
+                    url:'/notice'
+                },
+                {
+                    name:'公告详情',
+                    url:''
+                }
+            ],
+            detailsData:{},
+            attachNewsList:[]
         }
     },
     components:{
        'v-crumbs':Crumbs
     },
+    mounted(){
+        let id = this.$route.params.id;
+        this.getDetails(id);
+    },
+    methods:{
+        getDetails(id){
+            this.$axios.post('/news/newsInfoApi/get.action',{
+                id:id
+        })
+        .then(res => {
+            if(res.data){
+                this.detailsData = res.data;
+                this.attachNewsList = res.data.attachNewsList;
+            }
+        })
+        }
+    }
 }
 </script>
 
@@ -65,6 +97,7 @@ export default {
         line-height: 35px;
         margin-top:30px;
         padding-bottom:30px;
+        word-wrap: break-word;
     }
     .notice-details-affix{
         display:flex;
@@ -79,6 +112,9 @@ export default {
     }
     .notice-details-affix>ul a{
         color:$global-a-color;
+    }
+    .notice-details-affix>ul a i{
+        margin-left:10px;
     }
 </style>
 

@@ -19,53 +19,71 @@ export default {
        'v-header':Header,
        'v-footer':Footer
     },
+    mounted() {
+      // console.log(window.sessionStorage.getItem("token"));
+    },
+    methods:{
+      /* presentIndex(data){
+        this.navActive = data.navActive;
+      } */
+     
+    },
     watch: {
       $route(n) {
-        if(n.name === 'home') {
+        let token = window.sessionStorage.getItem("token");
+        if(n.name === 'home' || n.name === 'login' ) {
           this.navActive = 0
         }
-        if(n.name === 'task') {
+        if(n.name === 'task' || n.name === 'task-details' ) {
           this.navActive = 1
         }
-        if(n.name === 'testcenter') {
+        if(n.name === 'task-details' && token == null) {
+            this.$router.push({
+                path: `/home`,
+            })
+        }
+        if(n.name === 'points' || n.name === 'points-details' ) {
           this.navActive = 2
         }
-        if(n.name === 'points') {
+        if(n.name === 'notice' || n.name === 'notice-details' ) {
           this.navActive = 3
         }
-        if(n.name === 'notice') {
+        if(n.name === 'about') {
           this.navActive = 4
         }
-        if(n.name === 'about') {
-          this.navActive = 5
-        }
-        if(n.name === 'heroes') {
+        /* if(n.name === 'heroes') {
+          this.navActive = 6
+        } */
+        if(n.name === 'personal') {
           this.navActive = 6
         }
       }
     },
     beforeRouteEnter(to,from,next) {
       next(vm=>{
-        if(to.name === 'home') {
+        if(to.name === 'home' || to.name === 'login' )  {
           vm.navActive = 0
         }
-        if(to.name === 'task') {
+        if(to.name === 'task' || to.name === 'task-details' ) {
           vm.navActive = 1
         }
-        if(to.name === 'testcenter') {
+        /* if(to.name === 'testcenter') {
+          vm.navActive = 2
+        } */
+        if(to.name === 'points' || to.name === 'points-details' ) {
           vm.navActive = 2
         }
-        if(to.name === 'points' || to.name === 'points-details' ) {
+        if(to.name === 'notice' || to.name === 'notice-details') {
           vm.navActive = 3
         }
-        if(to.name === 'notice' || to.name === 'notice-details') {
+        if(to.name === 'about') {
           vm.navActive = 4
         }
-        if(to.name === 'about') {
-          vm.navActive = 5
-        }
-        if(n.name === 'heroes') {
+        /* if(to.name === 'heroes') {
           this.navActive = 6
+        } */
+        if(to.name === 'personal') {
+          vm.navActive = 5
         }
       })
     },
